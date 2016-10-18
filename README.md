@@ -1568,3 +1568,77 @@ Mach-O relocation data structures support two types of relocatable expressions i
 
 - *Symbol address + constant*. The most typical form of relocation is referencing a symbol’s address with no constant added. In this case, the value of the constant expression is 0.
 - *Address of section y – address of section x + constant*. The section difference form of relocation. This form of relocation supports position-independent code.
+
+
+## Universal Binaries and 32-bit/64-bit PowerPC Binaries
+
+The standard development tools accept as parameters two kinds of binaries:
+* Object files targeted at one architecture. These include Mach-O files, static libraries, and dynamic libraries.
+* Binaries targeted at more than one architecture. These binaries contain compiled code and data for one of these system types:
+  * PowerPC-based (32-bit and 64-bit) Macintosh computers. Binaries that contain code for both 32-bit and 64-bit PowerPC-based Macintosh computers are are known as PPC/PPC64 binaries.
+  * Intel-based and PowerPC-based (32-bit, 64-bit, or both) Macintosh computers. Binaries that contain code for both Intel-based and PowerPC-based Macintosh computers are known as universal binaries.
+
+Each object file is stored as a continuous set of bytes at an offset from the beginning of the binary. They use a simple archive format to store the two object files with a special header at the beginning of the file to allow the various runtime tools to quickly find the code appropriate for the current architecture.
+
+A binary that contains code for more than one architecture always begins with a `fat_header` data structure, followed by two `fat_arch` data structures and the actual data for the architectures contained in the file. All data in these data structures is stored in big-endian byte order.
+
+#### `fat_header`
+
+Defines the layout of a binary that contains code for more than one architecture. Declared in the header `/usr/include/mach-o/fat.h`.
+
+##### Declaration
+
+`struct fat_header { uint32_t magic; uint32_t nfat_arch; };`
+
+##### Fields
+
+`magic`
+
+An integer containing the value 0xCAFEBABE in big-endian byte order format. On a big-endian host CPU, this can be validated using the constant FAT_MAGIC; on a little-endian host CPU, it can be validated using the constant FAT_CIGAM.
+
+`nfat_arch`
+
+##### Discussion
+
+The fat_header data structure is placed at the start of a binary that contains code for multiple architectures. Directly following the fat_header data structure is a set of `fat_arch` data structures, one for each architecture included in the binary. Regardless of the content this data structure describes, all its fields are stored in big-endian byte order.
+
+#### `fat_arch`
+
+Describes the location within the binary of an object file targeted at a single architecture. Declared in `/usr/include/mach-o/fat.h`.
+
+```
+struct fat_arch
+{
+cpu_type_t cputype;
+cpu_subtype_t cpusubtype;
+uint32_t offset;
+uint32_t size;
+uint32_t align;
+};
+```
+
+##### Fields
+
+`cputype`
+
+An enumeration value of type cpu_type_t. Specifies the CPU family.
+
+`cpusubtype`
+
+An enumeration value of type cpu_subtype_t. Specifies the specific member of the CPU family on which this entry may be used or a constant specifying all members.
+
+`offset`
+
+Offset to the beginning of the data for this CPU.
+
+`size`
+
+Size of the data for this CPU.
+
+`align`
+
+The power of 2 alignment for the offset of the object file for the architecture specified in cputype within the binary. This is required to ensure that, if this binary is changed, the contents it retains are correctly aligned for virtual memory paging and other uses.
+
+##### Discussion
+
+An array of `fat_arch` data structures appears directly after the `fat_header` data structure of a binary that contains object files for multiple architectures. Regardless of the content this data structure describes, all its fields are stored in big-endian byte order.
