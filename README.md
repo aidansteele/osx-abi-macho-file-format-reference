@@ -103,7 +103,7 @@ Specifies the general attributes of a file. Appears at the beginning of object f
 
 ###### Declaration
 
-`struct mach_header { uint32_t magic; cpu_type_t cputype; cpu_subtype_t cpusubtype; uint32_t filetype; uint32_t ncmds; uint32_t sizeofcmds;uint32_t flags; };`
+`struct mach_header { uint32_t magic; cpu_type_t cputype; cpu_subtype_t cpusubtype; uint32_t filetype; uint32_t ncmds; uint32_t sizeofcmds; uint32_t flags; };`
 
 ###### Fields
 
@@ -426,7 +426,7 @@ Defines the elements used by a 32-bit section. Directly following a `segment_co
 
 ##### Declaration
 
-`struct section { char sectname[16]; char segname[16]; uint32_t addr; uint32_t size; uint32_t offset; uint32_t align; uint32_t reloff;uint32_t nreloc; uint32_t flags; uint32_t reserved1; uint32_t reserved2; };`
+`struct section { char sectname[16]; char segname[16]; uint32_t addr; uint32_t size; uint32_t offset; uint32_t align; uint32_t reloff; uint32_t nreloc; uint32_t flags; uint32_t reserved1; uint32_t reserved2; };`
 
 ##### Fields
 
@@ -1067,7 +1067,7 @@ Describes an entry in the symbol table for 32-bit architectures. Declared in `/
 
 ##### Declaration
 
-`struct nlist { union { #ifndef __LP64__ char *n_name; #endif int32_t n_strx; } n_un; uint8_t n_type; uint8_t n_sect; int16_t n_desc;uint32_t n_value; };`
+`struct nlist { union { #ifndef __LP64__ char *n_name; #endif int32_t n_strx; } n_un; uint8_t n_type; uint8_t n_sect; int16_t n_desc; uint32_t n_value; };`
 
 ##### Fields
 
@@ -1194,7 +1194,7 @@ The data structure for the `LC_DYSYMTAB` load command. It describes the sizes 
 
 ##### Declaration
 
-`struct dysymtab_command { uint32_t cmd; uint32_t cmdsize; uint32_t ilocalsym; uint32_t nlocalsym; uint32_t iextdefsym; uint32_t nextdefsym;uint32_t iundefsym; uint32_t nundefsym; uint32_t tocoff; uint32_t ntoc; uint32_t modtaboff; uint32_t nmodtab; uint32_t extrefsymoff;uint32_t nextrefsyms; uint32_t indirectsymoff; uint32_t nindirectsyms; uint32_t extreloff; uint32_t nextrel; uint32_t locreloff; uint32_tnlocrel; };`
+`struct dysymtab_command { uint32_t cmd; uint32_t cmdsize; uint32_t ilocalsym; uint32_t nlocalsym; uint32_t iextdefsym; uint32_t nextdefsym; uint32_t iundefsym; uint32_t nundefsym; uint32_t tocoff; uint32_t ntoc; uint32_t modtaboff; uint32_t nmodtab; uint32_t extrefsymoff; uint32_t nextrefsyms; uint32_t indirectsymoff; uint32_t nindirectsyms; uint32_t extreloff; uint32_t nextrel; uint32_t locreloff; uint32_tnlocrel; };`
 
 ##### Fields
 
