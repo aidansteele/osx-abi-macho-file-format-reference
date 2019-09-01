@@ -1,6 +1,6 @@
 Preamble: I couldn't find this anywhere on Apple's developer documentation website, so I've copied it here for my own benefit. If you are going to use this page, I highly recommend the [Github Table of Contents](https://github.com/arthurhammer/github-toc) web browser extension.
 
-# OS X ABI Mach-O File Format Reference
+#OS X ABI Mach - O File Format Reference
 
 This document describes the structure of the Mach-O (Mach object) file format, which is the standard used to store programs and libraries on disk in the Mac app binary interface (ABI). To understand how the Xcode tools work with Mach-O files, and to perform low-level debugging tasks, you need to understand this information.
 
@@ -103,7 +103,17 @@ Specifies the general attributes of a file. Appears at the beginning of object f
 
 ###### Declaration
 
-`struct mach_header { uint32_t magic; cpu_type_t cputype; cpu_subtype_t cpusubtype; uint32_t filetype; uint32_t ncmds; uint32_t sizeofcmds; uint32_t flags; };`
+```c
+struct mach_header {
+   uint32_t magic;
+   cpu_type_t cputype;
+   cpu_subtype_t cpusubtype;
+   uint32_t filetype;
+   uint32_t ncmds;
+   uint32_t sizeofcmds;
+   uint32_t flags;
+};
+```
 
 ###### Fields
 
@@ -172,7 +182,18 @@ Defines the general attributes of a file targeted for a 64-bit architecture. Dec
 
 ###### Declaration
 
-`struct mach_header_64 { uint32_t magic; cpu_type_t cputype; cpu_subtype_t cpusubtype; uint32_t filetype; uint32_t ncmds; uint32_tsizeofcmds; uint32_t flags; uint32_t reserved; };`
+```c
+struct mach_header_64 {
+   uint32_t magic;
+   cpu_type_t cputype;
+   cpu_subtype_t cpusubtype;
+   uint32_t filetype;
+   uint32_t ncmds;
+   uint32_tsizeofcmds;
+   uint32_t flags;
+   uint32_t reserved;
+};
+```
 
 ###### Fields
 
@@ -245,7 +266,12 @@ Contains fields that are common to all load commands.
 
 ##### Declaration
 
-`struct load_command { uint32_t cmd; uint32_t cmdsize; };`
+```c
+struct load_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+};
+```
 
 ##### Fields
 
@@ -290,7 +316,13 @@ Specifies the 128-bit universally unique identifier (UUID) for an image or for i
 
 ##### Declaration
 
-`struct uuid_command { uint32_t cmd; uint32_t cmdsize; uint8_t uuid[16]; };`
+```c
+struct uuid_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint8_t uuid[16];
+};
+```
 
 ##### Fields
 
@@ -312,7 +344,21 @@ Specifies the range of bytes in a 32-bit Mach-O file that make up a segment. Tho
 
 ##### Declaration
 
-`struct segment_command { uint32_t cmd; uint32_t cmdsize; char segname[16]; uint32_t vmaddr; uint32_t vmsize; uint32_t fileoff; uint32_tfilesize; vm_prot_t maxprot; vm_prot_t initprot; uint32_t nsects; uint32_t flags; };`
+```c
+struct segment_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   char segname[16];
+   uint32_t vmaddr;
+   uint32_t vmsize;
+   uint32_t fileoff;
+   uint32_t filesize;
+   vm_prot_t maxprot;
+   vm_prot_t initprot;
+   uint32_t nsects;
+   uint32_t flags;
+};
+```
 
 ##### Fields
 
@@ -369,7 +415,21 @@ Specifies the range of bytes in a 64-bit Mach-O file that make up a segment. Tho
 
 ##### Declaration
 
-`struct segment_command_64 { uint32_t cmd; uint32_t cmdsize; char segname[16]; uint64_t vmaddr; uint64_t vmsize; uint64_t fileoff; uint64_tfilesize; vm_prot_t maxprot; vm_prot_t initprot; uint32_t nsects; uint32_t flags; };`
+```c
+struct segment_command_64 {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   char segname[16];
+   uint64_t vmaddr;
+   uint64_t vmsize;
+   uint64_t fileoff;
+   uint64_t filesize;
+   vm_prot_t maxprot;
+   vm_prot_t initprot;
+   uint32_t nsects;
+   uint32_t flags;
+};
+```
 
 ##### Fields
 
@@ -426,7 +486,21 @@ Defines the elements used by a 32-bit section. Directly following a `segment_co
 
 ##### Declaration
 
-`struct section { char sectname[16]; char segname[16]; uint32_t addr; uint32_t size; uint32_t offset; uint32_t align; uint32_t reloff; uint32_t nreloc; uint32_t flags; uint32_t reserved1; uint32_t reserved2; };`
+```c
+struct section {
+   char sectname[16];
+   char segname[16];
+   uint32_t addr;
+   uint32_t size;
+   uint32_t offset;
+   uint32_t align;
+   uint32_t reloff;
+   uint32_t nreloc;
+   uint32_t flags;
+   uint32_t reserved1;
+   uint32_t reserved2;
+};
+```
 
 ##### Fields
 
@@ -515,7 +589,22 @@ Defines the elements used by a 64-bit section. Directly following a `segment_co
 
 ##### Declaration
 
-`struct section_64 { char sectname[16]; char segname[16]; uint64_t addr; uint64_t size; uint32_t offset; uint32_t align; uint32_t reloff; uint32_t nreloc; uint32_t flags; uint32_t reserved1; uint32_t reserved2; uint32_t reserved3; };`
+```c
+struct section_64 {
+   char sectname[16];
+   char segname[16];
+   uint64_t addr;
+   uint64_t size;
+   uint32_t offset;
+   uint32_t align;
+   uint32_t reloff;
+   uint32_t nreloc;
+   uint32_t flags;
+   uint32_t reserved1;
+   uint32_t reserved2;
+   uint32_t reserved3;
+};
+```
 
 ##### Fields
 
@@ -609,7 +698,14 @@ Defines the attributes of a `LC_TWOLEVEL_HINTS` load command. Declared in `/u
 
 ##### Declaration
 
-`struct twolevel_hints_command { uint32_t cmd; uint32_t cmdsize; uint32_t offset; uint32_t nhints; };`
+```c
+struct twolevel_hints_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint32_t offset;
+   uint32_t nhints;
+};
+```
 
 ##### Fields
 
@@ -639,7 +735,11 @@ Specifies an entry in the two-level namespace hint table. Declared in `/usr/inc
 
 ##### Declaration
 
-`struct twolevel_hint { uint32_t isub_image:8, itoc:24; };`
+```c
+struct twolevel_hint {
+   uint32_t isub_image : 8, itoc : 24;
+};
+```
 
 ##### Fields
 
@@ -667,7 +767,14 @@ Defines a variable-length string. Declared in `/usr/include/mach-o/loader.h`.
 
 ##### Declaration
 
-`union lc_str { uint32_t offset; #ifndef __LP64__ char *ptr; #endif };`
+```c
+union lc_str {
+   uint32_t offset;
+#ifndef __LP64__
+   char* ptr;
+#endif
+};
+```
 
 ##### Fields
 
@@ -691,7 +798,14 @@ Defines the data used by the dynamic linker to match a shared library against th
 
 ##### Declaration
 
-`struct dylib { union lc_str name; uint_32 timestamp; uint_32 current_version; uint_32 compatibility_version; };`
+```c
+struct dylib {
+   union lc_str name;
+   uint32_t timestamp;
+   uint32_t current_version;
+   uint32_t compatibility_version;
+};
+```
 
 ##### Fields
 
@@ -717,7 +831,13 @@ Defines the attributes of the `LC_LOAD_DYLIB` and `LC_ID_DYLIB` load command
 
 ##### Declaration
 
-`struct dylib_command { uint_32 cmd; uint_32 cmdsize; struct dylib dylib; };`
+```c
+struct dylib_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   struct dylib dylib;
+};
+```
 
 ##### Fields
 
@@ -747,7 +867,13 @@ Defines the attributes of the `LC_LOAD_DYLINKER` and `LC_ID_DYLINKER` load c
 
 ##### Declaration
 
-`struct dylinker_command { uint32_t cmd; uint32_t cmdsize; union lc_str name; };`
+```c
+struct dylinker_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str name;
+};
+```
 
 ##### Fields
 
@@ -773,7 +899,15 @@ Defines the attributes of the `LC_PREBOUND_DYLIB` load command. For every libr
 
 ##### Declaration
 
-`struct prebound_dylib_command { uint32_t cmd; uint32_t cmdsize; union lc_str name; uint32_t nmodules; union lc_str linked_modules; };`
+```c
+struct prebound_dylib_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str name;
+   uint32_t nmodules;
+   union lc_str linked_modules;
+};
+```
 
 ##### Fields
 
@@ -803,7 +937,15 @@ Defines the attributes of the `LC_THREAD` and `LC_UNIXTHREAD` load commands.
 
 ##### Declaration
 
-`struct thread_command { uint32_t cmd; uint32_t cmdsize; /* uint32_t flavor;*/ /* uint32_t count; */ /* struct cpu_thread_state state;*/ };`
+```c
+struct thread_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   /* uint32_t flavor;*/
+   /* uint32_t count; */
+   /* struct cpu_thread_state state;*/
+};
+```
 
 ##### Fields
 
@@ -829,7 +971,20 @@ Defines the attributes of the `LC_ROUTINES` load command, used in 32-bit archi
 
 ##### Declaration
 
-`struct routines_command { uint32_t cmd; uint32_t cmdsize; uint32_t init_address; uint32_t init_module; uint32_t reserved1; uint32_t reserved2; uint32_t reserved3; uint32_t reserved4; uint32_t reserved5; uint32_t reserved6; };`
+```c
+struct routines_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint32_t init_address;
+   uint32_t init_module;
+   uint32_t reserved1;
+   uint32_t reserved2;
+   uint32_t reserved3;
+   uint32_t reserved4;
+   uint32_t reserved5;
+   uint32_t reserved6;
+};
+```
 
 ##### Fields
 
@@ -883,7 +1038,20 @@ Defines the attributes of the `LC_ROUTINES_64` load command, used in 64-bit ar
 
 ##### Declaration
 
-`struct routines_command_64 { uint32_t cmd; uint32_t cmdsize; uint64_t init_address; uint64_t init_module; uint64_t reserved1; uint64_treserved2; uint64_t reserved3; uint64_t reserved4; uint64_t reserved5; uint64_t reserved6; };`
+```c
+struct routines_command_64 {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint64_t init_address;
+   uint64_t init_module;
+   uint64_t reserved1;
+   uint64_t reserved2;
+   uint64_t reserved3;
+   uint64_t reserved4;
+   uint64_t reserved5;
+   uint64_t reserved6;
+};
+```
 
 ##### Fields
 
@@ -937,7 +1105,13 @@ Defines the attributes of the `LC_SUB_FRAMEWORK` load command. Identifies the 
 
 ##### Declaration
 
-`struct sub_framework_command { uint32_t cmd; uint32_t cmdsize; union lc_str umbrella; };`
+```c
+struct sub_framework_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str umbrella;
+};
+```
 
 ##### Fields
 
@@ -959,7 +1133,13 @@ Defines the attributes of the `LC_SUB_UMBRELLA` load command. Identifies the n
 
 ##### Declaration
 
-`struct sub_umbrella_command { uint32_t cmd; uint32_t cmdsize; union lc_str sub_umbrella; };`
+```c
+struct sub_umbrella_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str sub_umbrella;
+};
+```
 
 ##### Fields
 
@@ -981,7 +1161,13 @@ Defines the attributes of the `LC_SUB_LIBRARY` load command. Identifies a subl
 
 ##### Declaration
 
-`struct sub_library_command { uint32_t cmd; uint32_t cmdsize; union lc_str sub_library; };`
+```c
+struct sub_library_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str sub_library;
+};
+```
 
 ##### Fields
 
@@ -1003,7 +1189,13 @@ Defines the attributes of the `LC_SUB_CLIENT` load command. Specifies the name
 
 ##### Declaration
 
-`struct sub_client_command { uint32_t cmd; uint32_t cmdsize; union lc_str client; };`
+```c
+struct sub_client_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   union lc_str client;
+};
+```
 
 ##### Fields
 
@@ -1029,7 +1221,16 @@ Defines the attributes of the `LC_SYMTAB` load command. Describes the size and
 
 ##### Declaration
 
-`struct symtab_command { uint_32 cmd; uint_32 cmdsize; uint_32 symoff; uint_32 nsyms; uint_32 stroff; uint_32 strsize; };`
+```c
+struct symtab_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint32_t symoff;
+   uint32_t nsyms;
+   uint32_t stroff;
+   uint32_t strsize;
+};
+```
 
 ##### Fields
 
@@ -1067,7 +1268,20 @@ Describes an entry in the symbol table for 32-bit architectures. Declared in `/
 
 ##### Declaration
 
-`struct nlist { union { #ifndef __LP64__ char *n_name; #endif int32_t n_strx; } n_un; uint8_t n_type; uint8_t n_sect; int16_t n_desc; uint32_t n_value; };`
+```c
+struct nlist {
+   union {
+     #ifndef __LP64__
+        char * n_name;
+     #endif
+     int32_t n_strx;
+   } n_un;
+   uint8_t n_type;
+   uint8_t n_sect;
+   int16_t n_desc;
+  uint32_t n_value;
+};
+```
 
 ##### Fields
 
@@ -1131,7 +1345,17 @@ Describes an entry in the symbol table for 64-bit architectures. Declared in `/
 
 ##### Declaration
 
-`struct nlist_64 { union { uint32_t n_strx; } n_un; uint8_t n_type; uint8_t n_sect; uint16_t n_desc; uint64_t n_value; };`
+```c
+struct nlist_64 {
+   union {
+     uint32_t n_strx; 
+   } n_un;
+   uint8_t n_type;
+   uint8_t n_sect;
+   uint16_t n_desc;
+   uint64_t n_value;
+};
+```
 
 ##### Fields
 
@@ -1194,7 +1418,30 @@ The data structure for the `LC_DYSYMTAB` load command. It describes the sizes 
 
 ##### Declaration
 
-`struct dysymtab_command { uint32_t cmd; uint32_t cmdsize; uint32_t ilocalsym; uint32_t nlocalsym; uint32_t iextdefsym; uint32_t nextdefsym; uint32_t iundefsym; uint32_t nundefsym; uint32_t tocoff; uint32_t ntoc; uint32_t modtaboff; uint32_t nmodtab; uint32_t extrefsymoff; uint32_t nextrefsyms; uint32_t indirectsymoff; uint32_t nindirectsyms; uint32_t extreloff; uint32_t nextrel; uint32_t locreloff; uint32_tnlocrel; };`
+```c
+struct dysymtab_command {
+   uint32_t cmd;
+   uint32_t cmdsize;
+   uint32_t ilocalsym;
+   uint32_t nlocalsym;
+   uint32_t iextdefsym;
+   uint32_t nextdefsym;
+   uint32_t iundefsym;
+   uint32_t nundefsym;
+   uint32_t tocoff;
+   uint32_t ntoc;
+   uint32_t modtaboff;
+   uint32_t nmodtab;
+   uint32_t extrefsymoff;
+   uint32_t nextrefsyms;
+   uint32_t indirectsymoff;
+   uint32_t nindirectsyms;
+   uint32_t extreloff;
+   uint32_t nextrel;
+   uint32_t locreloff;
+   uint32_t nlocrel;
+};
+```
 
 ##### Fields
 
@@ -1288,7 +1535,12 @@ Describes an entry in the table of contents of a dynamic shared library. Declare
 
 ##### Declaration
 
-`struct dylib_table_of_contents { uint32_t symbol_index; uint32_t module_index; };`
+```c
+struct dylib_table_of_contents {
+   uint32_t symbol_index;
+   uint32_t module_index;
+};
+```
 
 ##### Fields
 
@@ -1306,7 +1558,23 @@ Describes a module table entry for a dynamic shared library for 32-bit architect
 
 ##### Declaration
 
-`struct dylib_module { uint32_t module_name; uint32_t iextdefsym; uint32_t nextdefsym; uint32_t irefsym; uint32_t nrefsym; uint32_tilocalsym; uint32_t nlocalsym; uint32_t iextrel; uint32_t nextrel; uint32_t iinit_iterm; uint32_t ninit_nterm; uint32_tobjc_module_info_addr; uint32_t objc_module_info_size; };`
+```c
+struct dylib_module {
+   uint32_t module_name;
+   uint32_t iextdefsym;
+   uint32_t nextdefsym;
+   uint32_t irefsym;
+   uint32_t nrefsym;
+   uint32_t ilocalsym;
+   uint32_t nlocalsym;
+   uint32_t iextrel;
+   uint32_t nextrel;
+   uint32_t iinit_iterm;
+   uint32_t ninit_nterm;
+   uint32_t objc_module_info_addr;
+   uint32_t objc_module_info_size;
+};
+```
 
 ##### Fields
 
@@ -1368,7 +1636,23 @@ Describes a module table entry for a dynamic shared library for 64-bit architect
 
 ##### Declaration
 
-`struct dylib_module_64 { uint32_t module_name; uint32_t iextdefsym; uint32_t nextdefsym; uint32_t irefsym; uint32_t nrefsym; uint32_tilocalsym; uint32_t nlocalsym; uint32_t iextrel; uint32_t nextrel; uint32_t iinit_iterm; uint32_t ninit_nterm; uint32_tobjc_module_info_size; uint64_t objc_module_info_addr; };`
+```c
+struct dylib_module_64 {
+   uint32_t module_name;
+   uint32_t iextdefsym;
+   uint32_t nextdefsym;
+   uint32_t irefsym;
+   uint32_t nrefsym;
+   uint32_t ilocalsym;
+   uint32_t nlocalsym;
+   uint32_t iextrel;
+   uint32_t nextrel;
+   uint32_t iinit_iterm;
+   uint32_t ninit_nterm;
+   uint32_t objc_module_info_size;
+   uint64_t objc_module_info_addr;
+};
+```
 
 ##### Fields
 
@@ -1430,7 +1714,11 @@ Defines the attributes of an external reference table entry for the external ref
 
 ##### Declaration
 
-`struct dylib_reference { uint32_t isym:24, flags:8; };`
+```c
+struct dylib_reference {
+   uint32_t isym : 24, flags : 8;
+};
+```
 
 ##### Fields
 
@@ -1455,7 +1743,12 @@ Describes an item in the file that uses an address that needs to be updated when
 
 ##### Declaration
 
-`struct relocation_info { int32_t r_address; uint32_t r_symbolnum:24, r_pcrel:1, r_length:2, r_extern:1, r_type:4; };`
+```c
+struct relocation_info {
+   int32_t r_address;
+   uint32_t r_symbolnum : 24, r_pcrel : 1, r_length : 2, r_extern : 1, r_type : 4;
+};
+```
 
 ##### Fields
 
@@ -1535,7 +1828,18 @@ Describes an item in the file—using a nonzero constant in its relocatable expr
 
 ##### Declaration
 
-`struct scattered_relocation_info { #ifdef __BIG_ENDIAN__ uint32_t r_scattered:1, r_pcrel:1, r_length:2, r_type:4, r_address:24; int32_t r_value;#endif /* __BIG_ENDIAN__ */ #ifdef __LITTLE_ENDIAN__ uint32_t r_address:24, r_type:4, r_length:2, r_pcrel:1, r_scattered:1; int32_t r_value; #endif /* __LITTLE_ENDIAN__ */ };`
+```c
+struct scattered_relocation_info {
+#ifdef __BIG_ENDIAN__
+   uint32_t r_scattered : 1, r_pcrel : 1, r_length : 2, r_type : 4, r_address : 24;
+   int32_t r_value;
+#endif /* __BIG_ENDIAN__ */
+#ifdef __LITTLE_ENDIAN__
+   uint32_t r_address : 24, r_type : 4, r_length : 2, r_pcrel : 1, r_scattered : 1;
+   int32_t r_value;
+#endif  /* __LITTLE_ENDIAN__ */
+};
+```
 
 ##### Fields
 
@@ -1595,7 +1899,12 @@ Defines the layout of a binary that contains code for more than one architecture
 
 ##### Declaration
 
-`struct fat_header { uint32_t magic; uint32_t nfat_arch; };`
+```c
+struct fat_header {
+  uint32_t magic;
+  uint32_t nfat_arch;
+};
+```
 
 ##### Fields
 
@@ -1613,14 +1922,14 @@ The fat_header data structure is placed at the start of a binary that contains c
 
 Describes the location within the binary of an object file targeted at a single architecture. Declared in `/usr/include/mach-o/fat.h`.
 
-```
+```c
 struct fat_arch
 {
-cpu_type_t cputype;
-cpu_subtype_t cpusubtype;
-uint32_t offset;
-uint32_t size;
-uint32_t align;
+   cpu_type_t cputype;
+   cpu_subtype_t cpusubtype;
+   uint32_t offset;
+   uint32_t size;
+   uint32_t align;
 };
 ```
 
