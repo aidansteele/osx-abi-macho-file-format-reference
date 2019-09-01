@@ -829,7 +829,7 @@ Defines the attributes of the `LC_ROUTINES` load command, used in 32-bit archi
 
 ##### Declaration
 
-`struct routines_command { uint32_t cmd; uint32_t cmdsize; uint32_t init_address; uint32_t init_module; uint32_t reserved1; uint32_treserved2; uint32_t reserved3; uint32_t reserved4; uint32_t reserved5; uint32_t reserved6; };`
+`struct routines_command { uint32_t cmd; uint32_t cmdsize; uint32_t init_address; uint32_t init_module; uint32_t reserved1; uint32_t reserved2; uint32_t reserved3; uint32_t reserved4; uint32_t reserved5; uint32_t reserved6; };`
 
 ##### Fields
 
