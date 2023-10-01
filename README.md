@@ -189,7 +189,7 @@ struct mach_header_64 {
    cpu_subtype_t cpusubtype;
    uint32_t filetype;
    uint32_t ncmds;
-   uint32_tsizeofcmds;
+   uint32_t sizeofcmds;
    uint32_t flags;
    uint32_t reserved;
 };
