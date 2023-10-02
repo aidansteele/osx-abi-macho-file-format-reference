@@ -1244,7 +1244,7 @@ Common to all load command structures. For this structure, set to `sizeof(symta
 
 `symoff`
 
-An integer containing the byte offset from the start of the file to the location of the symbol table entries. The symbol table is an array of `nlist` data structures.
+An integer containing the byte offset relative to the start of the mach-o header to the location of the symbol table entries. The symbol table is an array of `nlist` data structures.
 
 `nsyms`
 
@@ -1252,7 +1252,7 @@ An integer indicating the number of entries in the symbol table.
 
 `stroff`
 
-An integer containing the byte offset from the start of the image to the location of the string table.
+An integer containing the byte offset relative to the start of the mach-o header to the location of the string table.
 
 `strsize`
 
