@@ -1,4 +1,4 @@
-Preamble: I couldn't find this anywhere on Apple's developer documentation website, so I've copied it here for my own benefit. If you are going to use this page, I highly recommend the [Github Table of Contents](https://github.com/arthurhammer/github-toc) web browser extension.
+Preamble: I couldn't find this anywhere on Apple's developer documentation website, so I've copied it here for my own benefit. If you are going to use this page, I highly recommend the table of contents view in GitHub.
 
 # OS X ABI Mach-O File Format Reference
 
